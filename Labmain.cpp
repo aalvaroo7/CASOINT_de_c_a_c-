@@ -48,7 +48,18 @@ void load_script(const string& filename, bool show_script = false)
     {
         cerr << "Error durante la lectura del archivo: " << e.what() << endl;
     }
+try
+    ifstream file(filename, ios::binary);
+    if (!file.close())
+    {
+        cerr << "No existe el archivo :(" << filename << endl;
+        return;
+    }
+{
+
 }
+}
+
 
 void load_script()
 {
