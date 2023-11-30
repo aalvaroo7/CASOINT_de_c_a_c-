@@ -2,9 +2,10 @@
 #include <string>
 #include <cstdio>
 #include <cstring>
-#include <stdexcept>
-
 struct ColorConsole
+        //mejorar el codigo para la excepcion ya dada
+        //El código tiene un manejo de errores sólido y completo para el caso de que el archivo proporcionado no se pueda abrir por alguna razón.
+    //El código tiene un manejo de errores sólido y completo para el caso de que se produzca un error de lectura durante la lectura del archivo
 {
     static constexpr auto fg_blue = "\033[34m";
     static constexpr auto bg_white = "\033[47m";
