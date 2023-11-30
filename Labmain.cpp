@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cstdio>
+#include <cerrno> // Para usar errno
 
 using namespace std;
 
@@ -16,7 +17,7 @@ struct ConsoleBox
     void set_text(const string &text) { cout << text << endl; }
 };
 
-ConsoleBox *consoleBox = new ConsoleBox; // suponemos que ya está inicializado
+ConsoleBox *consoleBox = new ConsoleBox; // Suponemos que ya está inicializado
 
 void load_script(const char* filename, bool show_script = false)
 {
@@ -27,7 +28,7 @@ void load_script(const char* filename, bool show_script = false)
         f = fopen(filename, "rb");
         if (!f)
         {
-            cerr << "error de apertura de " << filename << endl;
+            cerr << "Error de apertura de " << filename << ": " << strerror(errno) << endl;
             return;
         }
 
@@ -51,7 +52,7 @@ void load_script(const char* filename, bool show_script = false)
     }
     catch (...)
     {
-        cerr << "error durante la lectura del archivo" << endl;
+        cerr << "Error durante la lectura del archivo" << endl;
         if(f)
             fclose(f);
     }
