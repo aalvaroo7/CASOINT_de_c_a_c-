@@ -1,11 +1,9 @@
 #include <iostream>
 #include <string>
 #include <cstdio>
-#include <cstring>
+#include <stdexcept>
+
 struct ColorConsole
-        //mejorar el codigo para la excepcion ya dada
-        //El código tiene un manejo de errores sólido y completo para el caso de que el archivo proporcionado no se pueda abrir por alguna razón.
-    //El código tiene un manejo de errores sólido y completo para el caso de que se produzca un error de lectura durante la lectura del archivo
 {
     static constexpr auto fg_blue = "\033[34m";
     static constexpr auto bg_white = "\033[47m";
@@ -22,16 +20,15 @@ ConsoleBox* consoleBox = new ConsoleBox; // Suponemos que ya está inicializado
 void load_script(const char* filename, bool show_script = false)
 {
     std::string script;
-    FILE* f = fopen(filename, "rb");
-
-    if (!f)
-    {
-        std::cerr << "Error de apertura de " << filename << ": " << strerror(errno) << std::endl;
-        return;
-    }
 
     try
     {
+        FILE* f = fopen(filename, "rb");
+        if (!f)
+        {
+            throw std::runtime_error("No se pudo abrir el archivo: " + std::string(filename));
+        }
+
         char buf[4001];
         size_t bytesRead;
 
@@ -49,6 +46,8 @@ void load_script(const char* filename, bool show_script = false)
 
         consoleBox->new_text();
         consoleBox->set_text(script);
+
+        fclose(f);
     }
     catch (const std::exception& e)
     {
@@ -58,9 +57,6 @@ void load_script(const char* filename, bool show_script = false)
     {
         std::cerr << "Error desconocido durante la lectura del archivo" << std::endl;
     }
-
-    if (f)
-        fclose(f);
 }
 
 void load_script()
